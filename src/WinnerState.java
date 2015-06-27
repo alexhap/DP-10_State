@@ -1,13 +1,13 @@
 /**
- * Created by alex on 26.06.2015.
+ * Created by alex on 27.06.2015.
  *
  */
 
-public class SoldState implements State {
+public class WinnerState implements State {
 
-    GumballMachine gumballMachine;
+    private GumballMachine gumballMachine;
 
-    public SoldState(GumballMachine gumballMachine) {
+    public WinnerState(GumballMachine gumballMachine) {
         this.gumballMachine = gumballMachine;
     }
 
@@ -24,12 +24,18 @@ public class SoldState implements State {
     }
 
     public void dispense() {
+        System.out.println("YOU ARE WINNER!!! You get tho gumballs for your quarter");
         gumballMachine.releaseBall();
         if (gumballMachine.getCount() == 0) {
-            System.out.println("Oops, out of gumball!");
             gumballMachine.setState(gumballMachine.getSoldOutState());
         } else {
-            gumballMachine.setState(gumballMachine.getNoQuarterState());
+            gumballMachine.releaseBall();
+            if (gumballMachine.getCount() == 0) {
+                System.out.println("Oops, out of gumball!");
+                gumballMachine.setState(gumballMachine.getSoldOutState());
+            } else {
+                gumballMachine.setState(gumballMachine.getNoQuarterState());
+            }
         }
     }
 
@@ -38,6 +44,7 @@ public class SoldState implements State {
     }
 
     public String toString() {
-        return "dispensing a gumball";
+        return "dispensing two gumballs for your quarter, because YOU'RE A WINNER!";
     }
+
 }
